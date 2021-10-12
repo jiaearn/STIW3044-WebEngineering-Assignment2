@@ -1,0 +1,333 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Car Repair</title>
+    <style>
+        /*Body*/
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: lightgrey;
+        }
+
+        /*Form*/
+        .formstyle {
+            width: 360px;
+            height: 350px;
+            border-radius: 5px;
+            background-color: white;
+            padding: 20px;
+            border: 1.5px solid;
+        }
+
+        /*Each Row*/
+        .row {
+            margin-top: 20px;
+            width: 360px;
+            display: block;
+        }
+
+        /*Text Field*/
+        .row .inputText {
+            width: 200px;
+            height: 20px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding-left: 3px;
+            float: right;
+        }
+
+        /*Date*/
+        .row .inputDay {
+            width: 60px;
+            height: 25px;
+            border: 1px solid;
+            border-radius: 3px;
+            float: right;
+            cursor: pointer;
+        }
+
+        /*Month*/
+        .row .inputMonth {
+            margin-left: 5px;
+            width: 75px;
+            height: 25px;
+            border: 1px solid;
+            border-radius: 3px;
+            float: right;
+            cursor: pointer;
+        }
+
+        /*Year*/
+        .row .inputYear {
+            margin-left: 5px;
+            width: 55px;
+            height: 20px;
+            border: 1px solid;
+            border-radius: 3px;
+            padding-left: 3px;
+            float: right;
+        }
+
+        /*Submit Button*/
+        .row .submit {
+            margin-top: 5px;
+            width: 75px;
+            height: 30px;
+            font-weight: bold;
+            border: 1.5px solid;
+            border-radius: 3px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /*Submit Button Hover*/
+        .row .submit:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+
+        /*Reset Button*/
+        .row .reset {
+            margin-left: 60px;
+            width: 75px;
+            height: 30px;
+            font-weight: bold;
+            border: 1.5px solid;
+            border-radius: 3px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /*Reset Button Hover*/
+        .row .reset:hover {
+            box-shadow: 0 0 20px 10px hsla(0, 0%, 50%, 0.5);
+            color: #fff;
+            background: #000;
+            border: 0;
+        }
+    </style>
+
+    <script language="JavaScript">
+        function formValidation() {
+            /*Get Data*/
+            var name = document.trackstatus.name;
+            var phone = document.trackstatus.phone;
+            var type = document.trackstatus.type;
+            var plate = document.trackstatus.plate;
+            var year = document.trackstatus.year;
+            var month = document.getElementById("month");
+            var day = document.getElementById("day");
+            var email = document.trackstatus.email;
+
+            /*Validate*/
+            var all_letters = /^[A-Za-z "]+$/;
+            var phone_len = phone.value.length;
+            var alphanumberic = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9 ]+)$/;
+            var email_format = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+            /*Name Contain Only Alphabet*/
+            if (!name.value.match(all_letters)) {
+                alert("Name must contain only alphabet characters.");
+                name.focus();
+                return false;
+            }
+            /*Phone Number Contain Only Numeric*/
+            else if (isNaN(phone.value)) {
+                alert("Phone number must contain only numeric characters.")
+                phone.focus();
+                return false;
+            }
+            /*Phone Number Length Must Greater Than 9 and Less Than 13*/
+            else if (phone_len < 10 || phone_len > 13) {
+                alert("Phone number length must be between 10 to 13.");
+                phone.focus();
+                return false;
+            }
+            /*Car's Type Contain Only Alphabet*/
+            else if (!type.value.match(all_letters)) {
+                alert("Car's type must contain only alphabet characters.");
+                type.focus();
+                return false;
+            }
+            /*Plate Number Must Contain At Least 1 Number & 1 Character*/
+            else if (!plate.value.match(alphanumberic)) {
+                alert("Plate number must contain at least 1 character & 1 number. Please insert again.");
+                plate.focus();
+                return false;
+            }
+            /*Email Must Correct Format*/
+            else if (!email.value.match(email_format)) {
+                alert("Please insert a correct email.");
+                email.focus();
+                return false;
+            }
+            /*Car Registration Days Cannot Be Empty*/
+            else if (day.value.match("Days")) {
+                alert("Please select a day.")
+                return false;
+            }
+            /*Car Registration Months Cannot Be Empty*/
+            else if (month.value.match("Months")) {
+                alert("Please select a month.")
+                return false;
+            }
+            /*30 Days Per Month*/
+            else if ((month.value.match("April") || month.value.match("June") || month.value.match("September") || month.value.match("November")) && day.value.match("31")) {
+                alert("The selected month has only 30 days. Please selected correct day or month.")
+                return false;
+            }
+            /*Year Only Numeric*/
+            else if (isNaN(year.value)) {
+                alert("Year of car registration must contain only numeric characters.")
+                year.focus();
+                return false;
+            }
+            /*Year Must 4 Digit*/
+            else if (year.value.length < 4) {
+                alert("Year of car registration must be 4 digit.")
+                year.focus();
+                return false;
+            }
+            /*Year of car registration must be between 1990 to 2021*/
+            else if (year.value < 1990 || year.value > 2021) {
+                alert("Year of car registration must be between 1990 to 2021.");
+                year.focus();
+                return false;
+            }
+            /*Check Leap Year*/
+            else if ((0 == year.value % 4) && (0 != year.value % 100) || (0 == year.value % 400)) {
+                if (month.value.match("February") && (day.value.match("30") || day.value.match("31"))) {
+                    alert("The selected year is a leap year, so there will be only 29 days in this month. Please selected correct day or month.")
+                    return false;
+                }
+                /*All Correct*/
+                alert("Dear " + name.value.toUpperCase() + ", your car with plate number " + plate.value.toUpperCase() + " is under repair. Please wait patiently.");
+                window.location.reload();
+                return false;
+            }
+            /*Check Not Leap Year*/
+            else if ((0 != year.value % 4) && (0 == year.value % 100) || (0 != year.value % 400)) {
+                if (month.value.match("February") && (day.value.match("29") || day.value.match("30") || day.value.match("31"))) {
+                    alert("The selected year is not a leap year, so there will be only 28 days in this month. Please selected correct day or month.")
+                    return false;
+                }
+                /*All Correct*/
+                alert("Dear " + name.value.toUpperCase() + ", your car with plate number " + plate.value.toUpperCase() + " is under repair. Please wait patiently.");
+                window.location.reload();
+                return false;
+            }
+            /*All Correct*/
+            else {
+                alert("Dear " + name.value.toUpperCase() + ", your car with plate number " + plate.value.toUpperCase() + " is under repair. Please wait patiently.");
+                window.location.reload();
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <!--Form-->
+    <div class="formstyle">
+        <form name="trackstatus" onSubmit="return formValidation();">
+            <!--Hearder-->
+            <h1 align="center">Car Repair Status</h1>
+            <!--Name-->
+            <div class="row"><span>Name:</span>
+                <input type="text" class="inputText" placeholder="Your Name" name="name" required>
+            </div>
+            <!--Phone Number-->
+            <div class="row"><span>Phone Number:</span>
+                <input type="text" class="inputText" placeholder="Your Phone Number" name="phone" required>
+            </div>
+            <!--Car's Type-->
+            <div class="row"><span>Car's Type:</span>
+                <input type="text" class="inputText" placeholder="Your Car's Type" name="type" required>
+            </div>
+            <!--Car's Plate Number-->
+            <div class="row"><span>Car's Plate Number:</span>
+                <input type="text" class="inputText" placeholder="Your Car's Plate Number" name="plate" required>
+            </div>
+            <!--Car Registration Date-->
+            <div class="row"><span>Car Registration Date:</span>
+                <!--Year-->
+                <span>
+                    <input type="text" class="inputYear" placeholder="Years" name="year" maxlength="4" required>
+                </span>
+                <!--Month-->
+                <span>
+                    <select id="month" name="month" class="inputMonth">
+                        <option value="Months">Months</option>
+                        <option value="January">Jan</option>
+                        <option value="February">Feb</option>
+                        <option value="March">Mar</option>
+                        <option value="April">Apr</option>
+                        <option value="May">May</option>
+                        <option value="June">Jun</option>
+                        <option value="July">Jul</option>
+                        <option value="August">Aug</option>
+                        <option value="September">Sep</option>
+                        <option value="October">Oct</option>
+                        <option value="November">Nov</option>
+                        <option value="December">Dec</option>
+                    </select>
+                </span>
+                <!--Day-->
+                <span>
+                    <select id="day" name="day" class="inputDay">
+                        <option selected>Days</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                    </select>
+                </span>
+            </div>
+            <!--Email-->
+            <div class="row"><span>Email:</span>
+                <input type="text" class="inputText" placeholder="Your Email" name="email" required>
+            </div>
+            <!--Button-->
+            <div class="row" align="center">
+                <input type="submit" class="submit" name="submit" value="Submit" required>
+                <input type="reset" class="reset">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
