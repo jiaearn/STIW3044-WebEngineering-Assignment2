@@ -1,6 +1,4 @@
 # STIW3044-WebEngineering-Assignment2
-
-# STIW2044-MobileProgramming-Midterm-myshop
  
   NAME: TAN JIA EARN
 
